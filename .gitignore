@@ -28,4 +28,3 @@ chromedriver/chromedriver.exe
 msedgedriver/msedgedriver.exe
 geckodriver/geckodriver.exe
 .gitignore.bak
-.classpath
