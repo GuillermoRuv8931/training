@@ -23,7 +23,7 @@ public class PromedioDeCalificaciones {
 		} else {
 			Reporter.log("Calificacion fuera de rango valido " + resultado, true);
 		}
-
+  
 		
 
 	}// End method calcularPromedio
