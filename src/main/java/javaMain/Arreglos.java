@@ -1,9 +1,11 @@
 package javaMain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Arreglos {
 
@@ -94,7 +96,7 @@ public class Arreglos {
 		List<Integer> listaNumeros = new ArrayList<>();
 		listaNumeros.add(3);
 		listaNumeros.add(3);
-		listaNumeros.add(3);
+		listaNumeros.add(4);
 		listaNumeros.add(5);
 		listaNumeros.add(4);
 
@@ -107,30 +109,54 @@ public class Arreglos {
 
 		Object ultimo = null;
 		int contador = 0;
-		Iterator<Integer> i=listaNumeros.iterator();
-		
-		while(i.hasNext()) {
-			Object temporal  = i.next();
-			if(temporal.equals(ultimo)){
+		Iterator<Integer> i = listaNumeros.iterator();
+
+		while (i.hasNext()) {
+			Object temporal = i.next();
+			if (temporal.equals(ultimo)) {
 				i.remove();
 				contador++;
-			}else {
-				ultimo= temporal;
-				
+			} else {
+				ultimo = temporal;
+
 			}
-			
-	}//end while
-		System.out.println("La cantidad de numeros repetidos es " + contador );
-		System.out.println("La lista sin numeros repetidos es "+listaNumeros);
 
-}//end listadeEnteros
+		} // end while
+		System.out.println("La cantidad de numeros repetidos es " + contador);
+		System.out.println("La lista sin numeros repetidos es " + listaNumeros);
 
-	public void listaDeStrings() {
-		String[] nombres = {"Ramses", "Guillermo", "Abraham"};
-		
-		for(String nombre: nombres) {
+	}// end listadeEnteros
+
+	public void arregloDeStrings() {
+		String[] nombres = { "Ramses", "Guillermo", "Abraham" };
+
+		for (String nombre : nombres) {
 			System.out.println("El nombre es " + nombre);
 		}
-		}//end listasDeStrings
+	}// end listasDeStrings
+
+	public void listaDeStrings() {
+		List<String> listaNombres = new ArrayList<>();
+
+		for (int i = 1; i <= 5; i++) {
+			listaNombres.add("Persona " + i);
+		}
+		listaNombres.add("Persona 5");
+		listaNombres.add("Persona 5");
+		listaNombres.add("Persona 5");
+
+		System.out.println(listaNombres);
+
+		Collections.sort(listaNombres, Collections.reverseOrder());
+
+		System.out.println(listaNombres);
+
+		System.out.println(listaNombres.stream().distinct().collect(Collectors.toList()));
+		List<String> listaNombresSinRepetir = listaNombres.stream().distinct().collect(Collectors.toList());
+		Collections.sort(listaNombresSinRepetir);
+		System.out.println(listaNombresSinRepetir);
+		
+		
+	}
 
 }// End Arreglos
