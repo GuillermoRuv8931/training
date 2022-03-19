@@ -49,6 +49,13 @@
 			<artifactId>java-client</artifactId>
 			<version>7.6.0</version>
 		</dependency>
+		<!-- SLF4 library-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
+			<version>1.7.25</version>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 </project>
