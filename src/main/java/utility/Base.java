@@ -22,6 +22,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestContext;
 import org.testng.Reporter;
 
 public class Base {
@@ -42,12 +43,11 @@ public class Base {
 
 	public void setDriver(WebDriver driver) {
 		this.driver = driver;
-		
 
 	}
 
-	public WebDriver getDriver () {
-			return driver;
+	public WebDriver getDriver() {
+		return driver;
 	}
 
 	public String getOSName() {
@@ -119,7 +119,7 @@ public class Base {
 
 	}
 
-	public WebDriver openBrowser(String browserName) {
+	public WebDriver openBrowser(String browserName, ITestContext context) {
 
 		switch (browserName) {
 		case "chrome":
@@ -135,8 +135,9 @@ public class Base {
 			Reporter.log("Driver can't be initialited. Browser is:  " + browserName, true);
 
 		}
-
+		context.setAttribute("WebDriver", driver);
 		return driver;
+
 	}
 
 	public WebElement findElement(By locator) {
@@ -151,8 +152,8 @@ public class Base {
 	}
 
 	public String getText(By locator) {
-		String text =  findElement(locator).getText();
-		Reporter.log("El texto dek web Element es:  [ " + text + " ]");
+		String text = findElement(locator).getText();
+		Reporter.log("El texto del web Element es:  [ " + text + " ]");
 		return text;
 
 	}
@@ -200,33 +201,32 @@ public class Base {
 
 	public void takeScreenShot() {
 		OSName = getOSName();
-		String path="";
-		switch(OSName) {
+		String path = "";
+		switch (OSName) {
 		case "Mac":
 		case "Linux":
 			path = projectPath + "/execution_results/screenshots";
 			break;
 		case "windows":
 			path = projectPath + "\\execution_results\\screenshots\\";
-			break;	
+			break;
 		}
-		
+
 		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat formater = new SimpleDateFormat("dd_mm_YYYY_HH_mm_ss");
-		
-		File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+
+		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		try {
-			
-			String fullPath = path + "screen_"+formater.format(calendar.getTime()+".png");
+
+			String fullPath = path + "screen_" + formater.format(calendar.getTime()) + ".png";
 			FileUtils.copyFile(srcFile, new File(fullPath));
-			fullPath = "."+fullPath;
-			
-			Reporter.log("El Screenshot fue guardado en: "+ fullPath, true);
-			Reporter.log("<br> <img src='"+fullPath+"' height='400' width='400'/></br>", true);
-			
-		}catch(IOException e ) {
+					
+			Reporter.log("El Screenshot fue guardado en: " + fullPath, true);
+			Reporter.log("<br> <img src='" + fullPath + "' height='400' width='400'/></br>", true);
+
+		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 		}
 
 	}

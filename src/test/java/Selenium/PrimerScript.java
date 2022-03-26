@@ -63,7 +63,7 @@ public class PrimerScript {
 		WebDriver driver = new EdgeDriver(option);
 
 		String usuario = "Admin";
-		String pass = "admin123";
+		String pass = "admin12";
 
 		driver.get("https://opensource-demo.orangehrmlive.com/index.php/dashboard");
 
