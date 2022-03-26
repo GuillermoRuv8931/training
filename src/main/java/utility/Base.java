@@ -7,9 +7,12 @@ import java.time.Duration;
 import java.util.Calendar;
 import java.util.List;
 
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,7 +24,9 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 
@@ -55,7 +60,7 @@ public class Base {
 			OSName = "Windows";
 		} else if (OSName.contains("Mac")) {
 			OSName = "Mac";
-		} else if (OSName.contains("Linuz")) {
+		} else if (OSName.contains("Linux")) {
 			OSName = "Linux";
 		}
 
@@ -95,7 +100,7 @@ public class Base {
 
 	public WebDriver edgeDriverConnection() {
 		setDriverPath();
-		System.setProperty("webdriver.edge.driver", chromeDriver);
+		System.setProperty("webdriver.edge.driver", edgeDriver);
 		EdgeOptions option = new EdgeOptions();
 		option.addArguments("--start-maximized");
 		option.addArguments("--incognito");
@@ -146,7 +151,7 @@ public class Base {
 
 	}
 
-	public List<WebElement> findElementes(By locator) {
+	public List<WebElement> findElements(By locator) {
 		return driver.findElements(locator);
 
 	}
@@ -207,7 +212,7 @@ public class Base {
 		case "Linux":
 			path = projectPath + "/execution_results/screenshots";
 			break;
-		case "windows":
+		case "Windows":
 			path = projectPath + "\\execution_results\\screenshots\\";
 			break;
 		}
@@ -220,9 +225,9 @@ public class Base {
 
 			String fullPath = path + "screen_" + formater.format(calendar.getTime()) + ".png";
 			FileUtils.copyFile(srcFile, new File(fullPath));
-					
+
 			Reporter.log("El Screenshot fue guardado en: " + fullPath, true);
-			Reporter.log("<br> <img src='" + fullPath + "' height='400' width='400'/></br>", true);
+			Reporter.log("<br> <img src='" + fullPath + "' height='400' width='800'/></br>", true);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -231,4 +236,51 @@ public class Base {
 
 	}
 
+	public void validateExpectedText(String expected, String actual) {
+		try {
+			Assert.assertEquals(expected, actual);
+			reporter("Expected text [" + expected + " ] IS EQUAL TO [ "+ actual+" ]","");
+		} catch (AssertionError e) {
+			Assert.fail("text is not matching <b> expected: [ " + expected + " ] and actual: [ " + actual+ " ] <b>");
+			
+
+		}
+	}
+	
+	public void selectElementByValue(By locator, String expectedText){
+		List<WebElement> elements = findElements(locator);
+		
+		for (int i =0; i<elements.size(); i++) {
+		
+		if (i>=elements.size()){
+			Assert.fail("El elemento que buscas no existe en la lista: ["+ expectedText + "]");
+		}
+		
+		if(elements.get(i).getText().equals(expectedText)) {
+			elements.get(i).click();
+			break;
+			
+		}
+		
+		}
+		
+		
+	}//End selectElementByValue
+	
+	public void selectElementByVisibleText(By locator, String expectedText) {
+		
+		WebElement dropdown =findElement(locator);
+		Select action = new Select(dropdown);
+		try {
+		action.selectByValue(expectedText);
+		reporter("Element was selected by Visible Text", String.valueOf(expectedText));
+		}catch (StaleElementReferenceException e) {
+			Assert.fail("Cannot select element: ["+ dropdown.toString()+ "]");
+			
+		}catch(NoSuchElementException e) {
+			Assert.fail("Cannot select element ["+ dropdown.toString()+ "]");
+			
+		}
+		
+	}
 }// end class
