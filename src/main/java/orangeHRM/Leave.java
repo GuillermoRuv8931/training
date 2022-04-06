@@ -25,25 +25,25 @@ public class Leave extends Base {
 
 	public void requestVacationFullDay(String user, String fromDate, String toDate, String leaveType) {
 		verifyElementIsPresent(text_header);
-		validateExpectedText("Assing Leave", getText(text_header));
-		type(user, txt_employeeName);
-		selectDropDownByVisibleText(dp_leaveType, leaveType);
-		type(fromDate, txt_fromDate);
-		type(toDate, txt_toDate);
+		validateExpectedText("Assign Leave",getText(text_header));
+		type(user,txt_employeeName);
+		selectDropDownByVisibleText(dp_leaveType,leaveType);
+		type(fromDate,txt_fromDate);
+		type(toDate,txt_toDate);
 		click(txt_employeeName);
+		click(text_header);
 		selectDropDownByVisibleText(dp_partialDays,"None");
-		type("This is an Automated text", txt_comments);
+		type("This is an Autoamted test",txt_comments);
+		takeScreenShot();
 		verifyElementIsPresent(btn_assign);
 		click(btn_assign);
 		verifyElementIsPresent(btn_ok);
+		takeScreenShot();
 		click(btn_ok);
-		validateExpectedText("Successfully Assigned", getText(text_successMessage));
+		verifyElementIsPresent(text_successMessage);
+		validateExpectedText("Successfully Assigned",getText(text_successMessage));
 		takeScreenShot();
 		
-		
-		
-		
-
 	}
 
 }

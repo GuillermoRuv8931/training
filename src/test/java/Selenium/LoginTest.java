@@ -2,12 +2,14 @@ package Selenium;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import orangeHRM.Leave;
 import orangeHRM.Login;
 import orangeHRM.Menu;
 @Listeners({utility.Listener.class})
@@ -17,6 +19,7 @@ public class LoginTest {
 	private WebDriver driver;
 	Login login;
 	Menu menu;
+	Leave leave;
 	String url ="https://opensource-demo.orangehrmlive.com/";
 	String usuario = "Admin";
 	String pass = "admin123";		
@@ -49,9 +52,14 @@ public class LoginTest {
 		login.loginSuccess(usuario, pass);
 		menu = new Menu(driver);
 		menu.selectMenuSubMenu("Leave", "Assign  Leave");
-		
+		leave = new Leave(driver);
+		leave.requestVacationFullDay("Jacqueline White", "2022-03-27", "2022-03-30", "US - Vacation");
+		login.logOut();
 		
 	}
-	
+	@AfterTest
+	public void closeBrowser() {
+		driver.quit();
+	}
 
 }
