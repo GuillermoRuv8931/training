@@ -25,7 +25,7 @@ public class LoginTestDataProviderNoInstances {
 	}
 	
 	@Test(enabled=true, priority=1, dataProvider = "users", dataProviderClass = DataTest.class)
-	public void lginCorrecto(String usuario, String password) {
+	public void loginCorrecto(String usuario, String password) {
 		Base.page.getLogin().loginSuccess(usuario, password);
 		Base.page.getLogin().logOut();
 		
@@ -39,6 +39,12 @@ public class LoginTestDataProviderNoInstances {
 			Base.page.getLogin().logOut();
 		}
 	
+		@Test(enabled=true, priority=1, dataProvider = "users", dataProviderClass = DataTest.class)
+		public void loginPorPageFactory(String user, String Password) {
+			Base.page.getLoginFac().loginSuccessPageFactory(user, Password);
+			Base.page.getLoginFac().logOut();
+		}
+		
 
 	@AfterTest()
 	public void close() {

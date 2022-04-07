@@ -1,0 +1,15 @@
+{
+	"usuario1": {
+		"user": "Admin",
+		"password": "admin123"
+	},
+	"usuario2": {
+		"user": "Admin2",
+		"password": "admin123"
+	},
+	"errores": {
+		"errorMessage1": "Invalid Credentials",
+		"errorMessage2": "Username cannot be empty",
+		"errorMessage3": "Password cannot be empty"
+	}
+}

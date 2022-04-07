@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.lang.model.element.Element;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -173,10 +175,21 @@ public class Base {
 		return text;
 
 	}
+	
+	public String getText(WebElement element) {
+		String text = element.getText();
+		Reporter.log("El texto del web Element es:  [ " + text + " ]");
+		return text;
+
+	}
 
 	public void click(By locator) {
 		Reporter.log("Web Element was clicked");
 		findElement(locator).click();
+	}
+	public void click(WebElement element) {
+		Reporter.log("Web Element was clicked");
+		element.click();
 	}
 
 	public void reporter(String message, String value) {
@@ -189,10 +202,24 @@ public class Base {
 		reporter("Text inserted", inputText);
 
 	}
+	
+	public void type(String inputText, WebElement element) {
+		element.clear();
+		element.sendKeys();
+		reporter("Text inserted", inputText);
+
+	}
 
 	public void verifyElementIsPresent(By locator) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+		reporter("El Elemento existe", "");
+
+	}
+	
+	public void verifyElementIsPresent(WebElement element) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		wait.until(ExpectedConditions.visibilityOfAllElements(element));
 		reporter("El Elemento existe", "");
 
 	}
@@ -604,6 +631,12 @@ public class Base {
 	 **/
 	public void highlighElement(By locator) {
 		WebElement element = findElement(locator);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
+		sleep(500);
+		js.executeScript("arguments[0].setAttribute('style','border: solid 2px white');", element);
+	}
+	public void highlighElement(WebElement element) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
 		sleep(500);

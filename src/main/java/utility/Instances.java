@@ -13,6 +13,7 @@ public class Instances {
 	Login login;
 	Menu menu;
 	Base base;
+	LoginPageFactory loginFac;
 	/**
 	 * @param driver
 	 */
@@ -22,6 +23,8 @@ public class Instances {
 		leave = new Leave (driver);
 		menu = new Menu (driver);
 		base = new Base (driver);
+		loginFac = new LoginPageFactory(driver);
+		
 				
 	}
 	public Instances () {
@@ -43,7 +46,10 @@ public class Instances {
 	public Base getBase() {
 		return base;
 	}
-
+	
+	public LoginPageFactory getLoginFac() {
+		return loginFac;
+	}
 	
 	
 	

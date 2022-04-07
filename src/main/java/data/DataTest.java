@@ -1,8 +1,12 @@
 package data;
 import org.testng.annotations.DataProvider;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import utility.Base;
 
 public class DataTest {
+	String path = System.getProperty("user.dir");
 ;
 	
 	@DataProvider(name="loginFallidos")
@@ -34,6 +38,22 @@ public class DataTest {
 		
 		users[0][0] = "Admin";
 		users[0][1] = "admin123";
+		
+		users[1][0] = "Admin2";
+		users[1][1] = "admin123";
+		
+		return users;
+	}
+	
+	@DataProvider(name="usersJSON")
+	public Object[][] getUsersAndPasswordJSON(){
+		Object [][] users = new Object[2][2];
+		JsonNode nodeTree = Base.page.getBase().readJsonFileByNode(path+"\\datos\\usuarios.json", "usuario1");
+		
+		users[0][0] = nodeTree.path("user").asText();
+		users[0][1] = nodeTree.path("password").asText();
+		
+		nodeTree = Base.page.getBase().readJsonFileByNode(path+"\\datos\\usuarios.json", "usuario2");
 		
 		users[1][0] = "Admin2";
 		users[1][1] = "admin123";

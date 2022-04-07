@@ -1,0 +1,11 @@
+{
+	
+		"user": "Admin",
+		"userBlank": "",
+		"password": "passwe123",
+		"passwordBlank": "",
+		"errorMessage1": "Invalid credentials",
+		"errorMessage2": "Username cannot be empty",
+		"errorMessage3": "Password cannot be empty"
+	
+}
