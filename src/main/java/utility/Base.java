@@ -39,6 +39,11 @@ import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class Base {
 	private WebDriver driver;
 	private String OSName = System.getProperty("os.name");
@@ -473,6 +478,57 @@ public class Base {
 			e.printStackTrace();
 		}
 	}
+	/**
+	* @throws JsonGenerationException, JsonMappingException, IOException
+	* @Description Read JSON file
+	* @Author Sergio Ramones
+	* @Date 28/03/2022
+	* @Parameter String, String
+	* @return JsonNode
+	* @implNote nodeTree.path("fieldName").asText()
+	*/
+	public  JsonNode readJsonFileByNode(String jsonpath, String nodeName) {
+	JsonNode nodeTree = null;
+	try {
+	ObjectMapper mapper = new ObjectMapper();
+	JsonNode root = mapper.readTree(new File(jsonpath));
+	// Get Name
+	nodeTree = root.path(nodeName);
+	} catch (JsonGenerationException e) {
+	e.printStackTrace();
+	} catch (JsonMappingException e) {
+	e.printStackTrace();
+	} catch (IOException e) {
+	e.printStackTrace();
+	}
+	return nodeTree;
+	}
+	
+	/**
+	* @throws JsonGenerationException, JsonMappingException, IOException
+	* @Description Read JSON file
+	* @Author Sergio Ramones
+	* @Date 28/03/2022
+	* @Parameter String, String
+	* @return JsonNode
+	* @implNote nodeTree.path("fieldName").asText()
+	*/
+	public  JsonNode readJsonFile(String jsonpath) {
+	JsonNode root = null;
+	try {
+	ObjectMapper mapper = new ObjectMapper();
+	root = mapper.readTree(new File(jsonpath));
+	// Get Name
+	} catch (JsonGenerationException e) {
+	e.printStackTrace();
+	} catch (JsonMappingException e) {
+	e.printStackTrace();
+	} catch (IOException e) {
+	e.printStackTrace();
+	}
+	return root;
+	}
+	
 
 	/**
 	 * @throws N/A
